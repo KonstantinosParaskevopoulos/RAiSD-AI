@@ -477,7 +477,7 @@ int main (int argc, char ** argv)
 	{
 		RSDNeutralNetwork_run (RSDNeuralNetwork, RSDCommandLine, (void*)RSDGrid, RAiSD_Info_FP);
 		
-		if(!strcmp(RSDNeuralNetwork->networkArchitecture, ARC_SWEEPNETRECOMB))
+		if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDNeuralNetwork->networkArchitecture, ARC_SWEEPNETRECOMB))
 			RSDResults_load_2x2 (RSDResults, RSDCommandLine);
 		else
 			RSDResults_load (RSDResults, RSDCommandLine);			

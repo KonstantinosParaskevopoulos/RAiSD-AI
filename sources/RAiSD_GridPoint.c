@@ -102,7 +102,7 @@ void RSDGridPoint_addNewPosition (RSDGridPoint_t * RSDGridPoint, RSDCommandLine_
 		RSDGridPoint->nnPositiveClass0[RSDGridPoint->size-1] = 0.0;
 		RSDGridPoint->nnPositiveClass1[RSDGridPoint->size-1] = 0.0;
 		
-		if(!strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+		if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 		{
 			RSDGridPoint->nnScores2 = rsd_realloc (RSDGridPoint->nnScores2, sizeof(float)*RSDGridPoint->size);
 			assert(RSDGridPoint->nnScores2!=NULL);

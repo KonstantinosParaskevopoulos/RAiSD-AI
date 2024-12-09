@@ -2025,11 +2025,11 @@ void RSDCommandLine_load(RSDCommandLine_t * RSDCommandLine, int argc, char ** ar
 		exit(0);	
 	}
 	
-	if(!flagVector[CLASS_PAIRINGS_4] && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
-	{
-		fprintf(stderr, "\nERROR: -cl4 is required with network architecture %s!\n\n", ARC_SWEEPNETRECOMB);
-		exit(0);	
-	}
+	//if(!flagVector[CLASS_PAIRINGS_4] && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+	//{
+	//	fprintf(stderr, "\nERROR: -cl4 is required with network architecture %s!\n\n", ARC_SWEEPNETRECOMB);
+	//	exit(0);	
+	//}
 
 	if (flagVector[CL_TEST_PATH_FLAG_INDEX] && RSDCommandLine->opCode!=OP_TEST_CNN)
 	{

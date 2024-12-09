@@ -425,7 +425,7 @@ void RSDNeuralNetwork_init (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 	fprintf(fpOut, " Data type\t     :\t%s\n", getDataType_string (imgFormat, imgDataType));
 	fprintf(stdout, " Data type\t     :\t%s\n", getDataType_string (imgFormat, imgDataType));
 	
-	if(!strcmp(imgFormat, "bin") && imgDataType==BIN_DATA_ALLELE_COUNT && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+	if(!strcmp(imgFormat, "bin") && imgDataType==BIN_DATA_ALLELE_COUNT && RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 	{
 		fprintf(fpOut, "\nERROR: Network architecture SweepNetRecombination does not support allele frequencies as input!\n\n");		
 		fprintf(stderr, "\nERROR: Network architecture SweepNetRecombination does not support allele frequencies as input!\n\n");
@@ -654,6 +654,8 @@ void RSDNeuralNetwork_createTrainCommand (RSDNeuralNetwork_t * RSDNeuralNetwork,
 		strcat(trainCommand, " -c ");
 		strcat(trainCommand, RSDCommandLine->networkArchitecture); 
 		
+		assert(!strcmp(ARC_SWEEPNETRECOMB, ARC_FASTER_NN_G));
+		
 		if(!strcmp(RSDCommandLine->networkArchitecture, ARC_FASTER_NN_G))
 		{	
 			if(RSDCommandLine->fasterNNgroups==0)
@@ -667,13 +669,10 @@ void RSDNeuralNetwork_createTrainCommand (RSDNeuralNetwork_t * RSDNeuralNetwork,
 				
 			strcat(trainCommand, " -g ");
 			sprintf(tstring, "%d", RSDCommandLine->fasterNNgroups);
-			strcat(trainCommand, tstring);	
-			
-			
-			
+			strcat(trainCommand, tstring);			
 		}
 		
-		if(!strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+		if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 		{
 			int j=0;
 			
@@ -787,7 +786,7 @@ void RSDNeuralNetwork_train (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLi
 		
 	fclose(fpImgDim);
 	
-	if(!strcmp(RSDNeuralNetwork->networkArchitecture, ARC_SWEEPNETRECOMB))
+	if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDNeuralNetwork->networkArchitecture, ARC_SWEEPNETRECOMB))
 	{
 		strncpy(tstring, RSDNeuralNetwork->modelPath, STRING_SIZE);
 		strcat(tstring, "/classLabels.txt\0");
@@ -908,7 +907,7 @@ void RSDNeuralNetwork_createRunCommand (RSDNeuralNetwork_t * RSDNeuralNetwork, R
 		strcat(runCommand, RSDNeuralNetwork->dataType==BIN_DATA_ALLELE_COUNT?"1":"0"); // 1: using the reduction (allele freq. + distances), 0: raw snp data and distances
 		
 		strcat(runCommand, " -l ");
-		strcat(runCommand, !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB)?"1":"0"); 		
+		strcat(runCommand, (RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))?"1":"0"); 		
 	}	
 	
 	strcat(runCommand, " -h ");
@@ -1390,7 +1389,7 @@ void RSDNeuralNetwork_getColumnHeaders 	(RSDNeuralNetwork_t * RSDNeuralNetwork, 
 	assert(colHeader1!=NULL);
 	assert(colHeader2!=NULL);
 
-	if(!strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+	if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 	{
 		strcpy(colHeader1, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[0]]);
 		strcpy(colHeader2, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[1]]);

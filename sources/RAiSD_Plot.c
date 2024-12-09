@@ -177,7 +177,7 @@ dev.off() \n";
 #ifdef _RSDAI
 		if(RSDCommandLine->opCode==OP_USE_CNN)
 		{
-			if(!strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+			if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 			{
 /*			tscript = " \n \
 args = commandArgs(trailingOnly=TRUE) \n \
@@ -504,7 +504,7 @@ void RSDPlot_createPlot (RSDCommandLine_t * RSDCommandLine, RSDDataset_t * RSDDa
 		{
 			RSDNeuralNetwork_t * RSDNeuralNetwork = (RSDNeuralNetwork_t *)nn;
 			
-			if(!strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
+			if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 			{
 				strcat(tstring, " ");
 				strcat(tstring, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[0]]); 
