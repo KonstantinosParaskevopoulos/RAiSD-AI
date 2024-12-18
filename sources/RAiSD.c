@@ -352,7 +352,7 @@ int main (int argc, char ** argv)
 					//printf("%d - %d vs %d\n", RSDChunk->chunkID, (int)RSDDataset->setSNPs, (int)RSDDataset->preLoadedsetSNPs);
 					//fflush(stdout);
 
-					assert((uint64_t)RSDDataset->setSNPs==RSDDataset->preLoadedsetSNPs); // Fails when ms contains monomorphic sites
+					assert((uint64_t)RSDDataset->setSNPs<=RSDDataset->preLoadedsetSNPs); // in case ms contains monomorphic sites
 				}
 
 #ifdef _PTIMES
