@@ -50,7 +50,7 @@ RSDNeuralNetwork_t * RSDNeuralNetwork_new (RSDCommandLine_t * RSDCommandLine)
 	return nn;
 }
 
-void read_img_nn_info_file (char * path, int mode, FILE * fpOut, int * width, int * height, char * format, char * architecture, int * dataType, int * enTF, int * en2x2)
+void read_img_nn_info_file (char * path, int mode, FILE * fpOut, int * width, int * height, char * format, char * architecture, int * dataType, int * enTF, int * en2x2, int * groups)
 {
 	assert(path!=NULL);
 	assert(mode==0 || mode==1);
@@ -95,7 +95,11 @@ void read_img_nn_info_file (char * path, int mode, FILE * fpOut, int * width, in
 			
 			assert(en2x2!=NULL);
 			ret = fscanf(fp, "%d", en2x2);
-			assert(ret==1);			
+			assert(ret==1);
+			
+			assert(groups!=NULL);
+			ret = fscanf(fp, "%d", groups);
+			assert(ret==1);				
 		}
 		fclose(fp);
 	}
@@ -232,7 +236,7 @@ void RSDNeuralNetwork_init (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 		strncpy(tstring, RSDCommandLine->inputFileName, STRING_SIZE);
 		strcat(tstring, "/info.txt");
 		
-		read_img_nn_info_file (tstring, 0, fpOut, &imgWidth, &imgHeight, imgFormat, NULL, &imgDataType, NULL, NULL);
+		read_img_nn_info_file (tstring, 0, fpOut, &imgWidth, &imgHeight, imgFormat, NULL, &imgDataType, NULL, NULL, NULL);
 	}
 	
 	if(RSDCommandLine->opCode==OP_TEST_CNN || RSDCommandLine->opCode==OP_USE_CNN)
@@ -242,7 +246,7 @@ void RSDNeuralNetwork_init (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 		strcat(tstring, "/info.txt");
 		
 		read_img_nn_info_file (tstring, 1, fpOut, &RSDNeuralNetwork->imageWidth, &RSDNeuralNetwork->imageHeight, imgFormat2, RSDNeuralNetwork->networkArchitecture, 
-				       &RSDNeuralNetwork->dataType, &enTF, &RSDCommandLine->classification2x2En);
+				       &RSDNeuralNetwork->dataType, &enTF, &RSDCommandLine->classification2x2En, &RSDCommandLine->fasterNNgroups);
 				       
 		RSDNeuralNetwork->dataFormat = !strcmp(imgFormat2, "bin")?1:0;
 		assert(enTF==0 || enTF==1);		
@@ -782,6 +786,7 @@ void RSDNeuralNetwork_train (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLi
 	fprintf(fpImgDim, "%s\n%d\n%s\n", RSDNeuralNetwork->dataFormat==1?"bin":"2D", RSDNeuralNetwork->dataType, RSDNeuralNetwork->networkArchitecture);
 	fprintf(fpImgDim, "%d\n", RSDCommandLine->enTF);
 	fprintf(fpImgDim, "%d\n", RSDCommandLine->classification2x2En);
+	fprintf(fpImgDim, "%d\n", RSDCommandLine->fasterNNgroups);
 	fprintf(fpImgDim, "***DO_NOT_REMOVE_OR_EDIT_THIS_FILE***\n");
 		
 	fclose(fpImgDim);
@@ -907,7 +912,14 @@ void RSDNeuralNetwork_createRunCommand (RSDNeuralNetwork_t * RSDNeuralNetwork, R
 		strcat(runCommand, RSDNeuralNetwork->dataType==BIN_DATA_ALLELE_COUNT?"1":"0"); // 1: using the reduction (allele freq. + distances), 0: raw snp data and distances
 		
 		strcat(runCommand, " -l ");
-		strcat(runCommand, (RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))?"1":"0"); 		
+		strcat(runCommand, (RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))?"1":"0"); 
+		
+		if(!strcmp(RSDCommandLine->networkArchitecture, ARC_FASTER_NN_G))
+		{
+			strcat(runCommand, " -g ");
+			sprintf(tstring, "%d", RSDCommandLine->fasterNNgroups);
+			strcat(runCommand, tstring);
+		}		
 	}	
 	
 	strcat(runCommand, " -h ");
@@ -1091,8 +1103,16 @@ void RSDNeuralNetwork_test (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 		}
 	}
 	
-	fprintf(fpOut, " Testing model %s (%s) using directory %s\n\n", RSDNeuralNetwork->modelPath, RSDNeuralNetwork->networkArchitecture, RSDCommandLine->inputFileName);
-	fprintf(stdout, " Testing model %s (%s) using directory %s\n\n", RSDNeuralNetwork->modelPath, RSDNeuralNetwork->networkArchitecture, RSDCommandLine->inputFileName);
+	if(!strcmp(RSDCommandLine->networkArchitecture, ARC_FASTER_NN_G))
+	{
+		fprintf(fpOut, " Testing model %s (%s, groups=%d) using directory %s\n\n", RSDNeuralNetwork->modelPath, RSDNeuralNetwork->networkArchitecture, RSDCommandLine->fasterNNgroups, RSDCommandLine->inputFileName);
+		fprintf(stdout, " Testing model %s (%s, groups=%d) using directory %s\n\n", RSDNeuralNetwork->modelPath, RSDNeuralNetwork->networkArchitecture, RSDCommandLine->fasterNNgroups, RSDCommandLine->inputFileName);
+	}
+	else
+	{
+		fprintf(fpOut, " Testing model %s (%s) using directory %s\n\n", RSDNeuralNetwork->modelPath, RSDNeuralNetwork->networkArchitecture, RSDCommandLine->inputFileName);
+		fprintf(stdout, " Testing model %s (%s) using directory %s\n\n", RSDNeuralNetwork->modelPath, RSDNeuralNetwork->networkArchitecture, RSDCommandLine->inputFileName);
+	}
 	
 	int * predictionGrid = (int*)rsd_malloc(sizeof(int)*RSDCommandLine->numberOfClasses*RSDCommandLine->numberOfClasses);
 	assert(predictionGrid!=NULL);
