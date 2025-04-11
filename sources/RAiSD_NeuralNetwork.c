@@ -437,10 +437,23 @@ void RSDNeuralNetwork_init (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 		exit(0);
 	}	 
 	
+	//Python source files path and check
+	strncpy(RSDNeuralNetwork->pyPath, _COMPILE_PATH, STRING_SIZE);
 	if(RSDCommandLine->enTF==1)
-		strncpy(RSDNeuralNetwork->pyPath, "sources/tensorflow-sources/NN.py", STRING_SIZE);
+		strncat(RSDNeuralNetwork->pyPath, "/sources/tensorflow-sources/NN.py", STRING_SIZE);
 	else
-		strncpy(RSDNeuralNetwork->pyPath, "sources/pytorch-sources/main.py", STRING_SIZE);	
+		strncat(RSDNeuralNetwork->pyPath, "/sources/pytorch-sources/main.py", STRING_SIZE);
+		
+	fp = fopen(RSDNeuralNetwork->pyPath, "r");
+	if(fp==NULL)
+	{
+		fprintf(fpOut, "\n\nERROR: Python source files not found at %s/sources/pytorch-sources\n", _COMPILE_PATH);
+		fprintf(stderr, "\n\nERROR: Python source files not found at %s/sources/pytorch-sources\n", _COMPILE_PATH);
+	
+		exit(0);
+	}
+	assert(fp!=NULL);
+	fclose(fp);		
 	
 	if(RSDCommandLine->opCode==OP_TRAIN_CNN || RSDCommandLine->opCode==OP_TEST_CNN)
 	{	

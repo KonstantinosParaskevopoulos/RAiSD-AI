@@ -355,7 +355,8 @@ void RSDEval_print (RSDEval_t * RSDEval, void * RSDNeuralNetwork, RSDCommandLine
 
 		if(RSDNeuralNetwork!=NULL)
 		{
-			assert(RSDEval->muVarSortVecSz == (RSDEval->nnPositiveClass0SortVecSz == RSDEval->nnPositiveClass1SortVecSz));
+			assert(RSDEval->muVarSortVecSz == RSDEval->nnPositiveClass0SortVecSz);			
+			assert(RSDEval->nnPositiveClass0SortVecSz == RSDEval->nnPositiveClass1SortVecSz);
 			slen2=getStringLengthDouble5 (slen2, RSDEval->nnPositiveClass0SortVec[sortedVecIndex]); 
 			slen2=getStringLengthDouble5 (slen2, RSDEval->nnPositiveClass1SortVec[sortedVecIndex]);
 		}
