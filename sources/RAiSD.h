@@ -85,7 +85,7 @@ extern double TotalMuTime;
 #define WIN_MODE_FC 2 // floating-center
 #define WIN_MODE_DSR 3 // double-sided reduction
 
-#define STRING_SIZE 8192
+#define STRING_SIZE 16384
 #define PATTERNPOOL_SIZE 8 // MBs without the mask (actual memfootprint approx. double)
 #define	PATTERNPOOL_SIZE_MASK_FACTOR 2
 #define CHUNK_MEMSIZE_AND_INCREMENT 1024 // 1024 sites
