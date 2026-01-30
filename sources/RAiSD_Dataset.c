@@ -1168,13 +1168,13 @@ void RSDDataset_getSetRegionLength_vcf_gz (RSDDataset_t * RSDDataset, RSDCommand
 		alleleMap[alleleMapSize] = '\0';
 	}
 
-	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // qual
-	assert(rcnt==1);
-	
-	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // filter
+	rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // qual
 	assert(rcnt==1);
 
-	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // info
+	rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // filter
+	assert(rcnt==1);
+	
+	rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // info
 	assert(rcnt==1);
 
 	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // format
@@ -1340,13 +1340,13 @@ void RSDDataset_getSetRegionLength_vcf_gz (RSDDataset_t * RSDDataset, RSDCommand
 				alleleMap[alleleMapSize] = '\0';
 			}
 
-			rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // qual
-			assert(rcnt==1);
-	
-			rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // filter
+			rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // qual
 			assert(rcnt==1);
 
-			rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // info
+			rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // filter
+			assert(rcnt==1);
+			
+			rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // info
 			assert(rcnt==1);
 
 			rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // format
@@ -1575,13 +1575,13 @@ int RSDDataset_getNextSNP_vcf_gz (RSDDataset_t * RSDDataset, RSDPatternPool_t * 
 		alleleMap[alleleMapSize] = '\0';
 	}
 
-	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // qual
-	assert(rcnt==1);
-	
-	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // filter
+	rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // qual
 	assert(rcnt==1);
 
-	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // info
+	rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // filter
+	assert(rcnt==1);
+	
+	rcnt=skipTokenZLIB(RSDDataset->inputFilePtrGZ); // info
 	assert(rcnt==1);
 
 	rcnt = gzscanf(RSDDataset->inputFilePtrGZ, tstring); // format
@@ -2015,15 +2015,15 @@ void RSDDataset_getSetRegionLength_vcf (RSDDataset_t * RSDDataset, RSDCommandLin
 		alleleMap[alleleMapSize++] = tstring[0];
 		alleleMap[alleleMapSize] = '\0';
 	}
+	
+	rcnt=skipToken(RSDDataset->inputFilePtr); // qual
+	assert(rcnt==1);
 
-	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // qual
+	rcnt=skipToken(RSDDataset->inputFilePtr); // filter
 	assert(rcnt==1);
 	
-	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // filter
-	assert(rcnt==1);
-
-	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // info
-	assert(rcnt==1);
+	rcnt=skipToken(RSDDataset->inputFilePtr); // info
+	assert(rcnt==1);	
 
 	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // format
 	assert(rcnt==1);
@@ -2188,13 +2188,13 @@ void RSDDataset_getSetRegionLength_vcf (RSDDataset_t * RSDDataset, RSDCommandLin
 				alleleMapN[alleleMapSize] = '\0';
 			}
 
-			rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // qual
-			assert(rcnt==1);
-	
-			rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // filter
+			rcnt=skipToken(RSDDataset->inputFilePtr); // qual
 			assert(rcnt==1);
 
-			rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // info
+			rcnt=skipToken(RSDDataset->inputFilePtr); // filter
+			assert(rcnt==1);
+			
+			rcnt=skipToken(RSDDataset->inputFilePtr); // info
 			assert(rcnt==1);
 
 			rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // format
@@ -2418,13 +2418,13 @@ int RSDDataset_getNextSNP_vcf (RSDDataset_t * RSDDataset, RSDPatternPool_t * RSD
 		alleleMap[alleleMapSize] = '\0';
 	}
 
-	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // qual
-	assert(rcnt==1);
-	
-	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // filter
+	rcnt=skipToken(RSDDataset->inputFilePtr); // qual
 	assert(rcnt==1);
 
-	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // info
+	rcnt=skipToken(RSDDataset->inputFilePtr); // filter
+	assert(rcnt==1);
+	
+	rcnt=skipToken(RSDDataset->inputFilePtr); // info
 	assert(rcnt==1);
 
 	rcnt = fscanf(RSDDataset->inputFilePtr, "%s", tstring); // format

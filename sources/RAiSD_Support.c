@@ -734,7 +734,41 @@ int gzscanf (gzFile fp, char * string)
 
 	return 1;
 }
+
+int skipTokenZLIB(gzFile fp) 
+{
+	int c=-1;
+
+	// Skip leading whitespace
+	while ((c = gzgetc(fp)) != EOF && isspace(c));
+
+	if (c == EOF) 
+	return 0; // failure: EOF before token    
+
+	// Skip the token itself
+	while ((c = gzgetc(fp)) != EOF && !isspace(c));
+
+	return 1; // success
+}
+
 #endif
+
+int skipToken(FILE *fp) 
+{
+	assert(fp!=NULL);
+	int c=-1;
+
+	// Skip leading whitespace
+	while ((c = fgetc(fp)) != EOF && isspace(c));
+
+	if (c == EOF) 
+	return 0; // failure: EOF before token    
+
+	// Skip the token itself
+	while ((c = fgetc(fp)) != EOF && !isspace(c));
+
+	return 1; // success
+}
 
 FILE * skipLine (FILE * fp)
 {

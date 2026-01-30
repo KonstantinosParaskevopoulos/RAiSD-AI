@@ -28,6 +28,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <math.h>
+#include <ctype.h>
 //#include <gsl/gsl_errno.h>
 //#include <gsl/gsl_spline.h>
 //#include <gsl/gsl_interp.h>
@@ -281,6 +282,7 @@ int 			getStringLengthDouble1 		(int prv, double in);
 int 			getStringLengthDouble5 		(int prv, double in); 
 int 			getStringLengthExp 		(int prv, double in);
 double 			maxd 				(double a, double b); 
+int 			skipToken			(FILE * fp); 
 
 #ifdef _RSDAI
 int 			split_string 			(char * src, char * str1, char * str2, char delimiter);
@@ -302,6 +304,7 @@ void 			popcount_u64_init 	(void);
 
 #ifdef _ZLIB
 int 			gzscanf 		(gzFile fp, char * string);
+int 			skipTokenZLIB		(gzFile fp); 
 #endif
 
 // RAiSD_LinkedList.c
