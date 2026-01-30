@@ -40,9 +40,9 @@
 #endif
 
 #define MAJOR_VERSION 4
-#define MINOR_VERSION 1
-#define RELEASE_MONTH "November"
-#define RELEASE_YEAR 2024
+#define MINOR_VERSION 2
+#define RELEASE_MONTH "January"
+#define RELEASE_YEAR 2026
 
 /*Testing*/
 extern uint64_t selectionTarget;
@@ -92,6 +92,7 @@ extern double TotalMuTime;
 #define MULTI_STEP_PARSING 0
 #define SINGLE_STEP_PARSING 1 // set this to 0 to deactivate completely
 #define DEFAULT_WINDOW_SIZE 50
+#define DEFAULT_WINDOW_SIZE_CNN 400
 #define MIN_WINDOW_SIZE 6
 #define MIN_NUMBER_OF_SAMPLES 3
 #define ALL_SAMPLES_VALID -1 // when -1, all samples are assumed valid and will be processed
@@ -398,6 +399,8 @@ typedef struct
 	int		numberOfClasses;
 	char **		classLabelList;
 	char **		classPathList;
+	char 		cl4_1x_label[STRING_SIZE];
+	char 		cl4_x1_label[STRING_SIZE];	
 	unsigned int	imageHeight;
 	unsigned int	imageWidth;
 	int		epochs;
@@ -1074,6 +1077,8 @@ typedef struct
 	char		outputPath [STRING_SIZE]; // for the inference 
 	int		classSize;
 	char **		classLabel;
+	char 		cl4_1x_label[STRING_SIZE];
+	char 		cl4_x1_label[STRING_SIZE];
 
 } RSDNeuralNetwork_t;
 
@@ -1144,7 +1149,7 @@ RSDGrid_t * 	RSDGrid_new 		(RSDCommandLine_t * RSDCommandLine);
 void		RSDGrid_free		(RSDGrid_t * RSDGrid);
 void		RSDGrid_init		(RSDGrid_t * RSDGrid, RSDDataset_t * RSDDataset, RSDChunk_t * RSDChunk, RSDMuStat_t * RSDMuStat, RSDCommandLine_t * RSDCommandLine, int setDone);
 void 		RSDGrid_makeDirectory	(RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandLine, RSDImage_t * RSDImage);
-void 		RSDGrid_cleanDirectory	(RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandLine);
+void 		RSDGrid_removeDirectory	(RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandLine);
 void		RSDGrid_processChunk	(RSDGrid_t * RSDGrid, RSDImage_t * RSDImage, RSDMuStat_t * RSDMuStat, RSDChunk_t * RSDChunk, RSDPatternPool_t * RSDPatternPool, RSDDataset_t * RSDDataset, RSDCommandLine_t * RSDCommandLine, RSDResults_t * RSDResults);
 #endif
 

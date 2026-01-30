@@ -111,7 +111,7 @@ int main (int argc, char ** argv)
 	RSDEval_t * RSDEval = RSDEval_new (RSDCommandLine);
 	RSDEval_init (RSDEval, RSDCommandLine);
 	RSDEval_calculateDetectionMetricsConfigure (RSDCommandLine);
-			
+	
 #ifdef _RSDAI
 	RSDNeuralNetwork_t * RSDNeuralNetwork = RSDNeuralNetwork_new (RSDCommandLine);
 	RSDNeuralNetwork_init (RSDNeuralNetwork, RSDCommandLine, RAiSD_Info_FP);
@@ -490,7 +490,9 @@ int main (int argc, char ** argv)
 			RSDResults_load (RSDResults, RSDCommandLine);			
 
 		/* this function processes all sets - USE-CNN only*/	
-		RSDResults_process (RSDResults, RSDNeuralNetwork, RSDCommandLine, RSDDataset, RSDMuStat, RSDCommonOutliers, RSDEval); 
+		RSDResults_process (RSDResults, RSDNeuralNetwork, RSDCommandLine, RSDDataset, RSDMuStat, RSDCommonOutliers, RSDEval);
+		
+		RSDGrid_removeDirectory (RSDGrid, RSDCommandLine); 
 	}	
 #endif	
 
@@ -512,12 +514,12 @@ int main (int argc, char ** argv)
 			fprintf(stdout, "\n");
 			fprintf(stdout, " Output directory     :\t%s\n", RSDImage->destinationPath);
 			fprintf(stdout, " Data information     :\tRAiSD_Images.%s/info.txt\n", RSDCommandLine->runName); 
-			fprintf(stdout, " Images (total)       :\t%lu\n", RSDImage->totalGeneratedImages);
+			fprintf(stdout, " Windows (total)      :\t%lu\n", RSDImage->totalGeneratedImages);
 			
 			fprintf(RAiSD_Info_FP, "\n");
 			fprintf(RAiSD_Info_FP, " Output directory     :\t%s\n", RSDImage->destinationPath);
 			fprintf(RAiSD_Info_FP, " Data information     :\tRAiSD_Images.%s/info.txt\n", RSDCommandLine->runName);
-			fprintf(RAiSD_Info_FP, " Images (total)       :\t%lu\n", RSDImage->totalGeneratedImages);
+			fprintf(RAiSD_Info_FP, " Windows (total)      :\t%lu\n", RSDImage->totalGeneratedImages);
 			
 			break;
 		default:

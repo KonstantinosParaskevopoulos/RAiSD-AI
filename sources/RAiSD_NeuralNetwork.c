@@ -46,6 +46,8 @@ RSDNeuralNetwork_t * RSDNeuralNetwork_new (RSDCommandLine_t * RSDCommandLine)
 	strncpy(nn->outputPath, "\0", STRING_SIZE);
 	nn->classSize = 0;
 	nn->classLabel = NULL;
+	strncpy(nn->cl4_1x_label, "cl4_1x_label", STRING_SIZE);
+	strncpy(nn->cl4_x1_label, "cl4_x1_label", STRING_SIZE); 	
 	
 	return nn;
 }
@@ -99,7 +101,7 @@ void read_img_nn_info_file (char * path, int mode, FILE * fpOut, int * width, in
 			
 			assert(groups!=NULL);
 			ret = fscanf(fp, "%d", groups);
-			assert(ret==1);				
+			assert(ret==1);	
 		}
 		fclose(fp);
 	}
@@ -141,7 +143,10 @@ void RSDNeuralNetwork_init (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 			{
 				RSDNeuralNetwork->classLabel[i]=(char*)rsd_malloc(sizeof(char)*STRING_SIZE);
 				assert(RSDNeuralNetwork->classLabel[i]!=NULL);				
-			}			
+			}
+				
+			strncpy(RSDNeuralNetwork->cl4_1x_label, RSDCommandLine->cl4_1x_label, STRING_SIZE);
+			strncpy(RSDNeuralNetwork->cl4_x1_label, RSDCommandLine->cl4_x1_label, STRING_SIZE);			
 		break;
 		
 		case OP_TEST_CNN:
@@ -212,7 +217,16 @@ void RSDNeuralNetwork_init (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 				
 				ret = fscanf(fp, "%s %s", RSDNeuralNetwork->classLabel[i], tstring);
 				assert(ret==2);
-			}	
+			}
+			
+			if(RSDNeuralNetwork->classSize==4) // only FASTER-NN-G-2x2
+			{
+				ret = fscanf(fp, "%s", RSDNeuralNetwork->cl4_1x_label);
+				assert(ret==1);	
+			
+				ret = fscanf(fp, "%s", RSDNeuralNetwork->cl4_x1_label);
+				assert(ret==1);	
+			}
 			
 			fclose(fp);			
 		break;
@@ -652,12 +666,8 @@ void RSDNeuralNetwork_createTrainCommand (RSDNeuralNetwork_t * RSDNeuralNetwork,
 		strcat(trainCommand, RSDNeuralNetwork->inputPath);
 		
 		strcat(trainCommand, " -p ");
-
 		if(RSDCommandLine->useGPU==1)
-		{
-			strcat(trainCommand, "gpu");
-			assert(RSDCommandLine->useGPU!=1);
-		} 
+			strcat(trainCommand, "cuda");
 		else
 			strcat(trainCommand, "cpu"); 
 		
@@ -818,6 +828,9 @@ void RSDNeuralNetwork_train (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLi
 		for(int i=0;i<RSDNeuralNetwork->classSize;i++)		
 			fprintf(fpClasses, "%s (%d)\n", RSDCommandLine->classPathList[i], i);
 			
+		fprintf(fpImgDim, "%s\n", RSDNeuralNetwork->cl4_1x_label);
+		fprintf(fpImgDim, "%s\n", RSDNeuralNetwork->cl4_x1_label);	
+			
 		fprintf(fpClasses, "***DO_NOT_REMOVE_OR_EDIT_THIS_FILE***\n");
 		
 		fclose(fpClasses);
@@ -898,10 +911,7 @@ void RSDNeuralNetwork_createRunCommand (RSDNeuralNetwork_t * RSDNeuralNetwork, R
 		
 		strcat(runCommand, " -p ");
 		if(RSDCommandLine->useGPU==1)
-		{
-			strcat(runCommand, "gpu");
-			assert(RSDCommandLine->useGPU!=1);
-		} 
+			strcat(runCommand, "cuda");
 		else
 			strcat(runCommand, "cpu"); 
 		
@@ -1166,30 +1176,25 @@ void RSDNeuralNetwork_test (RSDNeuralNetwork_t * RSDNeuralNetwork, RSDCommandLin
 		exec_command ("rm -r tempOutputFolder");
 	}
 	
-	int samplesStrLen = 3;
+	int samplesStrLen = 2;
 	
-	for(i=0;i<RSDNeuralNetwork->classSize;i++)
+	for(i=0;i<RSDNeuralNetwork->classSize;i++) 
 	{		
 		int sum = 0; 		
 		for(j=0;j<RSDCommandLine->numberOfClasses;j++)
-			sum+=predictionGrid[i*RSDCommandLine->numberOfClasses+j];
+			sum+=predictionGrid[i*RSDCommandLine->numberOfClasses+j];			
+			
+		sum = sum / (RSDCommandLine->numberOfClasses/2); // div by 2 due to binary classification
 			
 		sprintf(tstring, "%d", sum);		
-		samplesStrLen = (int)strlen(tstring)>samplesStrLen?(int)strlen(tstring):samplesStrLen;	
-	}
-
-	for(i=0;i<RSDNeuralNetwork->classSize;i++)
-	{		
+		samplesStrLen = (int)strlen(tstring)>samplesStrLen?(int)strlen(tstring):samplesStrLen;
+		
 		for(k=0;k<RSDCommandLine->numberOfClasses;k++)
 			if(!strcmp(RSDCommandLine->classLabelList[k],RSDNeuralNetwork->classLabel[i]))
 				break;
 				
 		assert(k>=0);
 		assert(k<RSDCommandLine->numberOfClasses);
-
-		int sum = 0; 		
-		for(j=0;j<RSDCommandLine->numberOfClasses;j++)
-			sum+=predictionGrid[i*RSDCommandLine->numberOfClasses+j];
 		
 		fprintf(fpOut, " True class: %-*s | Test data: %-*s  (%*d samples/images) | Predicted class:",  maxClassLabelLength, RSDNeuralNetwork->classLabel[i], 
 													 	maxClassPathLength, RSDCommandLine->classPathList[k], 
@@ -1354,8 +1359,6 @@ void RSDNeuralNetwork_printPythonVersion (FILE * fpOut)
 	fprintf(stdout, " Python\t\t     :\t");
 
 	FILE * fp;
-	fp = fopen("PythonVersion.txt", "r");
-	assert(fp==NULL);
 	
 #ifdef _C1
 	int ret = system("python3 --version >PythonVersion.txt");
@@ -1382,7 +1385,7 @@ void RSDNeuralNetwork_printPythonVersion (FILE * fpOut)
 	}
 
 	fclose(fp);
-
+	
 	ret = remove("PythonVersion.txt");
 	assert(ret==0);	
 	
@@ -1424,8 +1427,11 @@ void RSDNeuralNetwork_getColumnHeaders 	(RSDNeuralNetwork_t * RSDNeuralNetwork, 
 
 	if(RSDCommandLine->classification2x2En==1 && !strcmp(RSDCommandLine->networkArchitecture, ARC_SWEEPNETRECOMB))
 	{
-		strcpy(colHeader1, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[0]]);
-		strcpy(colHeader2, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[1]]);
+		//strcpy(colHeader1, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[0]]);
+		//strcpy(colHeader2, RSDNeuralNetwork->classLabel[RSDCommandLine->positiveClassIndex[1]]);
+		
+		strcpy(colHeader1, RSDNeuralNetwork->cl4_1x_label);
+		strcpy(colHeader2, RSDNeuralNetwork->cl4_x1_label);	
 	}
 	else
 	{

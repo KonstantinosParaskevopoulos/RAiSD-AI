@@ -207,7 +207,7 @@ void RSDGrid_makeDirectory (RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandLi
 
 }
 
-void RSDGrid_cleanDirectory (RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandLine)
+void RSDGrid_removeDirectory (RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandLine)
 {
 	assert(RSDGrid!=NULL);
 	assert(RSDCommandLine!=NULL);
@@ -215,11 +215,11 @@ void RSDGrid_cleanDirectory (RSDGrid_t * RSDGrid, RSDCommandLine_t * RSDCommandL
 	char tstring [STRING_SIZE];
 	int ret = 0;	
 
-	strcpy(tstring, "rm ");
+	strcpy(tstring, "rm -r ");
 	strcat(tstring, "RAiSD_Grid."); 
 	strcat(tstring, RSDCommandLine->runName);
-	strcat(tstring, "/* 2>/dev/null");
-	
+	strcat(tstring, " 2>/dev/null");
+		
 	ret = system(tstring);
 	assert(ret!=-1);
 }

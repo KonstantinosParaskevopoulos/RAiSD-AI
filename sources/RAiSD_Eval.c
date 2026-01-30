@@ -135,8 +135,11 @@ void RSDEval_init (RSDEval_t * RSDEval, RSDCommandLine_t * RSDCommandLine)
 	RSDEval->tprThresNnPositiveClass0 = RSDCommandLine->tprThresNnPositiveClass0;
 	RSDEval->tprThresNnPositiveClass1 = RSDCommandLine->tprThresNnPositiveClass1;
 
-	assert(RSDEval->selectionTarget>=1);
-	assert(RSDEval->selectionTargetDThreshold>=1);
+	if(RSDEval->selectionTarget!=0ull)
+	{
+		assert(RSDEval->selectionTarget>=1);
+		assert(RSDEval->selectionTargetDThreshold>=1);
+	}
 	
 	if(RSDCommandLine->regionLength!=0ull)
 	{
@@ -294,8 +297,8 @@ void RSDEval_print (RSDEval_t * RSDEval, void * RSDNeuralNetwork, RSDCommandLine
 	double tprScrMuLd = 0.0;
 	double tprScrMu = 0.0;
 	double tprScrNnPositiveClass0 = 0.0;
-	double tprScrNnPositiveClass1 = 0.0;	
-	
+	double tprScrNnPositiveClass1 = 0.0;
+		
 	if(RSDNeuralNetwork!=NULL)
 	{
 		RSDNeuralNetwork_getColumnHeaders ((RSDNeuralNetwork_t *)RSDNeuralNetwork, RSDCommandLine, nnPositiveClass0Label, nnPositiveClass1Label);

@@ -86,6 +86,7 @@ RSDImage_t * RSDImage_new (RSDCommandLine_t * RSDCommandLine)
 	//RSDImage->byteBuffer = NULL;
 	RSDImage->derivedAlleleFrequency = NULL;
 	RSDImage->sitePosition = 0.0;
+	RSDImage->bitmap.pixels=NULL;
 	
 	return RSDImage;
 }
@@ -232,7 +233,7 @@ void RSDImage_print (RSDImage_t * RSDImage, RSDCommandLine_t * RSDCommandLine, F
 	assert(fpOut);
 	
 	fprintf(fpOut, " Target position     :\t%lu\n", RSDCommandLine->imageTargetSite);
-	fprintf(fpOut, " Image step          :\t%d\n", RSDCommandLine->imageWindowStep);
+	fprintf(fpOut, " Window step         :\t%d\n", RSDCommandLine->imageWindowStep);
 	
 	
 	fprintf(fpOut, " File format\t     :\t%s\n", RSDCommandLine->enBinFormat==1?"binary":"PNG");
@@ -276,12 +277,12 @@ void RSDImage_init (RSDImage_t * RSDImage, RSDDataset_t * RSDDataset, RSDMuStat_
 	if(!(RSDChunk->chunkID==0 && setIndex==0))
 		return;
 		
-	fprintf(stdout, " Generating images ...\n");
+	fprintf(stdout, " Generating CNN input data ...\n");
 
 	if(RSDCommandLine->displayProgress==1)
 		fprintf(stdout, "\n");
 		
-	fprintf(fpOut, " Generating images ...\n\n");
+	fprintf(fpOut, " Generating CNN input data ...\n\n");
 	
 	fflush(stdout);
 		
@@ -859,14 +860,14 @@ void RSDImage_writeOutput (RSDImage_t * RSDImage,  RSDCommandLine_t * RSDCommand
 	slen[4] = getStringLengthUint64 (slen[4], RSDDataset->setRegionLength);
 
 	if(RSDCommandLine->opCode==OP_CREATE_IMAGES)
-		fprintf(fpOut, " %d: Set %*s | Sites %*d | SNPs %*d | Region %*lu - Images %*lu | Position %.0f\n", setIndex, slen[0], RSDDataset->setID, 
+		fprintf(fpOut, " %d: Set %*s | Sites %*d | SNPs %*d | Region %*lu - Windows %*lu | Position %.0f\n", setIndex, slen[0], RSDDataset->setID, 
 												    		   slen[1], (int)RSDDataset->setSize, 
 												    		   slen[2], (int)RSDDataset->setSNPs, 
 												    		   slen[4], RSDDataset->setRegionLength, 
 												    		   slen[3], RSDImage->generatedSetImages,
 												    		   RSDImage->sitePosition);
 	else
-		fprintf(fpOut, " %d: Set %*s | Sites %*d | SNPs %*d | Region %*lu - Images %*lu\n",  setIndex, slen[0], RSDDataset->setID, 
+		fprintf(fpOut, " %d: Set %*s | Sites %*d | SNPs %*d | Region %*lu - Windows %*lu\n",  setIndex, slen[0], RSDDataset->setID, 
 												    slen[1], (int)RSDDataset->setSize, 
 												    slen[2], (int)RSDDataset->setSNPs, 
 												    slen[4], RSDDataset->setRegionLength, 
