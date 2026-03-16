@@ -221,6 +221,7 @@ extern double TotalMuTime;
 #define CLA_SWEEPNETRECOMB 4
 #define PCLA_SWEEPNETRECOMB 2
 
+#define THRESHOLD 0.5
 #endif
  // images, training, classification, scan , compositescan
 

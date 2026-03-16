@@ -1,0 +1,50 @@
+
+<<<==============================================================================================o
+
+   ooooooooo.         .o.        o8o   .oooooo..o oooooooooo.                   .o.       ooooo
+   `888   `Y88.      .888.       `"'  d8P'    `Y8 `888'   `Y8b                 .888.      `888'
+    888   .d88'     .8"888.     oooo  Y88bo.       888      888               .8"888.      888
+    888ooo88P'     .8' `888.    `888   `"Y8888o.   888      888              .8' `888.     888
+    888`88b.      .88ooo8888.    888       `"Y88b  888      888   8888888   .88ooo8888.    888
+    888  `88b.   .8'     `888.   888  oo     .d8P  888     d88'            .8'     `888.   888
+   o888o  o888o o88o     o8888o o888o 8""88888P'  o888bood8P'             o88o     o8888o o888o
+
+o==============================================================================================>>>
+
+ RAiSD-AI, Raised Accuracy in Sweep Detection using AI (version 4.2, released in January 2026)
+ Copyright (C) 2017-2024, and GNU GPL'd, by Nikolaos Alachiotis and Pavlos Pavlidis
+ Contact: n.alachiotis@utwente.nl and pavlidisp@gmail.com
+ Code contributions: Sjoerd van den Belt and Hanqing Zhao
+
+ 				    * * * * *
+
+ Command line        :	./RAiSD-AI -n test_run -I datasets/test/msselection1_10sims.out -L 100000 -O 
+ Operation mode      :	mu-statistic scan
+ Window width        :	50
+ Sample size         :	20
+ Region length       :	100000 bp
+ Dataset format      :	ms
+ var-exp             :	1.0
+ sfs-exp             :	1.0
+ ld-exp              :	1.0
+
+ A pattern structure of 524288 patterns (max. capacity) and approx. 16 MB memory footprint has been created.
+
+ 0: Set 0 | Sites 6109 | SNPs 6109 | Region 100000 - muVar 54925 4.044e+00 | muSFS 52330 3.548e+00 | muLD 57395 1.600e+01 | mu 54830 1.066e+02 
+ 1: Set 1 | Sites 6210 | SNPs 6210 | Region 100000 - muVar 49200 4.272e+00 | muSFS 49020 3.051e+00 | muLD 51925 8.889e+00 | mu 49800 5.040e+01 
+ 2: Set 2 | Sites 5420 | SNPs 5420 | Region 100000 - muVar 50030 4.640e+00 | muSFS 50580 3.406e+00 | muLD 53125 9.333e+00 | mu 50580 8.449e+01 
+ 3: Set 3 | Sites 5463 | SNPs 5463 | Region 100000 - muVar 51310 4.108e+00 | muSFS 47750 3.477e+00 | muLD 53755 1.061e+01 | mu 50480 7.008e+01 
+ 4: Set 4 | Sites 6173 | SNPs 6173 | Region 100000 - muVar 49865 3.988e+00 | muSFS 55075 3.335e+00 | muLD 53230 8.333e+00 | mu 50930 4.044e+01 
+ 5: Set 5 | Sites 5760 | SNPs 5760 | Region 100000 - muVar 50120 4.308e+00 | muSFS 51625 2.625e+00 | muLD 92755 9.804e+00 | mu 50310 5.108e+01 
+ 6: Set 6 | Sites 6131 | SNPs 6131 | Region 100000 - muVar 49600 8.338e+00 | muSFS 45610 3.477e+00 | muLD 44955 9.389e+00 | mu 48480 1.325e+02 
+ 7: Set 7 | Sites 6041 | SNPs 6041 | Region 100000 - muVar 50995 3.709e+00 | muSFS 48870 3.335e+00 | muLD 31615 9.375e+00 | mu 50490 5.709e+01 
+ 8: Set 8 | Sites 6186 | SNPs 6186 | Region 100000 - muVar 50235 5.407e+00 | muSFS 48910 3.122e+00 | muLD 47065 9.333e+00 | mu 49380 8.765e+01 
+ 9: Set 9 | Sites 5941 | SNPs 5941 | Region 100000 - muVar 49850 4.278e+00 | muSFS 48120 3.477e+00 | muLD 50125 1.442e+01 | mu 50125 1.897e+02 
+
+ Sets (total)         :	10
+ Sets (processed)     :	10
+ Sets (not processed) :	0
+
+ Total execution time 0.40054 seconds
+ Total memory footprint 9090 kbytes
+
