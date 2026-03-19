@@ -1012,6 +1012,7 @@ void 			RSDGridPoint_write2FileFull		(RSDGridPoint_t * RSDGridPoint, RSDMuStat_t
 extern void 		(*RSDGridPoint_write2File) 		(RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat);
 void 			RSDGridPoint_write2FileConfigure 	(RSDCommandLine_t * RSDCommandLine);
 void 			RSDGridPoint_getSteps 			(RSDCommandLine_t * RSDCommandLine, int * stepsLeft, int * stepsRight);
+void 			RSDGridPoint_write2FileFullOriginal (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat);
 
 //RAiSD_Image.c
 typedef struct 
@@ -1125,6 +1126,12 @@ typedef struct
 	double *	locRefinementBuffer;
 
 } RSDResults_t;
+
+typedef struct 
+{
+	int64_t targetIndex;
+	int8_t class; 
+} classificationTargetPoint; 
 
 RSDResults_t * 	RSDResults_new 			(RSDCommandLine_t * RSDCommandLine);
 void		RSDResults_free			(RSDResults_t * RSDResults);
