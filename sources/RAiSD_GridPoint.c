@@ -434,6 +434,33 @@ void RSDGridPoint_write2FileSimple (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t *
 		RSDMuStat_output2FileSimple (RSDMuStat, windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu);
 }
 
+void RSDGridPoint_write2FileFullOriginal (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat)
+{
+	assert(RSDGridPoint!=NULL);
+	assert(RSDMuStat!=NULL);
+	assert(RSDMuStat->reportFP!=NULL);
+	
+	double windowCenter = RSDGridPoint->positionReduced;
+	double windowStart = 0.0;
+	double windowEnd = 0.0;
+	double muVar = RSDGridPoint->muVarReduced;
+	double muSfs = RSDGridPoint->muSfsReduced;
+	double muLd = RSDGridPoint->muLdReduced;
+	double mu = RSDGridPoint->muReduced;
+	
+	if(RSDGridPoint->nnPositiveClass0!=NULL && RSDGridPoint->nnPositiveClass1!=NULL)
+	{
+		double nnPositiveClass0Reduced = RSDGridPoint->nnPositiveClass0Reduced;
+		double nnPositiveClass1Reduced = RSDGridPoint->nnPositiveClass1Reduced;
+		
+		fprintf(RSDMuStat->reportFP, "%.0f\t%.0f\t%.0f\t%.3e\t%.3e\t%.3e\t%.3e\t%.3e\t%.3e\n", windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu, 
+												       nnPositiveClass0Reduced, nnPositiveClass1Reduced);//Original Print
+		//fprintf(RSDMuStat->reportFP, "%.0f\t%.0f\n", windowCenter, nnPositiveClass0Reduced);	//Print only window center and classification as integer											   
+	}
+	else
+		RSDMuStat_output2FileFull (RSDMuStat, windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu);
+}
+
 void RSDGridPoint_write2FileConfigure (RSDCommandLine_t * RSDCommandLine)
 {
 	assert(RSDCommandLine!=NULL);
