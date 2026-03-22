@@ -382,7 +382,7 @@ int RSDGridPoint_getTargetSNPIndex (RSDChunk_t * RSDChunk, RSDMuStat_t * RSDMuSt
 	return targetSNPIndex;
 }
 
-void RSDGridPoint_write2FileFull (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat)
+void RSDGridPoint_write2FileFullOriginal (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat)
 {
 	assert(RSDGridPoint!=NULL);
 	assert(RSDMuStat!=NULL);
@@ -434,7 +434,7 @@ void RSDGridPoint_write2FileSimple (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t *
 		RSDMuStat_output2FileSimple (RSDMuStat, windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu);
 }
 
-void RSDGridPoint_write2FileFullOriginal (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat)
+void RSDGridPoint_write2FileFull (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * RSDMuStat)
 {
 	assert(RSDGridPoint!=NULL);
 	assert(RSDMuStat!=NULL);

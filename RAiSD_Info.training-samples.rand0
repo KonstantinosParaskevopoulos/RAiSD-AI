@@ -1,0 +1,47 @@
+
+<<<==============================================================================================o
+
+   ooooooooo.         .o.        o8o   .oooooo..o oooooooooo.                   .o.       ooooo
+   `888   `Y88.      .888.       `"'  d8P'    `Y8 `888'   `Y8b                 .888.      `888'
+    888   .d88'     .8"888.     oooo  Y88bo.       888      888               .8"888.      888
+    888ooo88P'     .8' `888.    `888   `"Y8888o.   888      888              .8' `888.     888
+    888`88b.      .88ooo8888.    888       `"Y88b  888      888   8888888   .88ooo8888.    888
+    888  `88b.   .8'     `888.   888  oo     .d8P  888     d88'            .8'     `888.   888
+   o888o  o888o o88o     o8888o o888o 8""88888P'  o888bood8P'             o88o     o8888o o888o
+
+o==============================================================================================>>>
+
+ RAiSD-AI, Raised Accuracy in Sweep Detection using AI (version 4.2, released in January 2026)
+ Copyright (C) 2017-2024, and GNU GPL'd, by Nikolaos Alachiotis and Pavlos Pavlidis
+ Contact: n.alachiotis@utwente.nl and pavlidisp@gmail.com
+ Code contributions: Sjoerd van den Belt and Hanqing Zhao
+
+ 				    * * * * *
+
+ Command line        :	../RAiSD-AI/RAiSD-AI -n training-samples -I ../Datasets/TMPVCF_VCF_x50_0-1000000_o0_chameleon_base_chunk_1_trace_0.vcf -B 999999 999998 -f -op IMG-GEN -icl rand0 -its 148340 -ips 1 -bin -typ 1 -w 500 -iws 5 
+ Operation mode      :	data generation
+ Window width        :	500 (image width)
+ Sample size         :	50 (image height)
+ Dataset format      :	vcf
+ Target position     :	148340
+ Window step         :	5
+ File format	     :	binary
+ Data type	     :	derived allele frequencies and SNP distances
+
+ A pattern structure of 524288 patterns (max. capacity) and approx. 16 MB memory footprint has been created.
+
+ Generating CNN input data ...
+
+ 0: Set 1 | Sites 999999 | SNPs 999999 | Region 999999 - Windows 1 | Position 148340
+
+ Sets (total)         :	1
+ Sets (processed)     :	1
+ Sets (not processed) :	0
+
+ Output directory     :	RAiSD_Images.training-samples/rand0/
+ Data information     :	RAiSD_Images.training-samples/info.txt
+ Windows (total)      :	1
+
+ Total execution time 3.18051 seconds
+ Total memory footprint 7652778 kbytes
+

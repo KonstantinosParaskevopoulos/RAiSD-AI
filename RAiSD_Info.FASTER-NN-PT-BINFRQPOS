@@ -1,0 +1,32 @@
+
+<<<==============================================================================================o
+
+   ooooooooo.         .o.        o8o   .oooooo..o oooooooooo.                   .o.       ooooo
+   `888   `Y88.      .888.       `"'  d8P'    `Y8 `888'   `Y8b                 .888.      `888'
+    888   .d88'     .8"888.     oooo  Y88bo.       888      888               .8"888.      888
+    888ooo88P'     .8' `888.    `888   `"Y8888o.   888      888              .8' `888.     888
+    888`88b.      .88ooo8888.    888       `"Y88b  888      888   8888888   .88ooo8888.    888
+    888  `88b.   .8'     `888.   888  oo     .d8P  888     d88'            .8'     `888.   888
+   o888o  o888o o88o     o8888o o888o 8""88888P'  o888bood8P'             o88o     o8888o o888o
+
+o==============================================================================================>>>
+
+ RAiSD-AI, Raised Accuracy in Sweep Detection using AI (version 4.2, released in January 2026)
+ Copyright (C) 2017-2024, and GNU GPL'd, by Nikolaos Alachiotis and Pavlos Pavlidis
+ Contact: n.alachiotis@utwente.nl and pavlidisp@gmail.com
+ Code contributions: Sjoerd van den Belt and Hanqing Zhao
+
+ 				    * * * * *
+
+ Command line        :	../RAiSD-AI/RAiSD-AI -n FASTER-NN-PT-BINFRQPOS -I RAiSD_Images.training-samples -f -op MDL-GEN -O -frm -e 10 
+ Operation mode      :	model generation (training)
+ Python		     :	Python 3.8.15
+ torch               :	torch 2.0.1
+ torchvision         :	torchvision 0.15.2a0
+ Image width	     :	500 (window width)
+ Image height	     :	50 (sample size)
+ File format	     :	binary
+ Data type	     :	derived allele frequencies and SNP distances
+
+ERROR: 0 class folder(s) found in directory RAiSD_Images.training-samples (FASTER-NN requires 2)!
+

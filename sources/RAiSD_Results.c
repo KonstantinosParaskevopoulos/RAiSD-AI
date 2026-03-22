@@ -238,8 +238,8 @@ void RSDResults_load (RSDResults_t * RSDResults, RSDCommandLine_t * RSDCommandLi
     		RSDGridPoint->nnPositiveClass0[gridPointDataIndex] = positiveClassIndex==0?(float)atof(imgProb0):(float)atof(imgProb1);
     		assert(RSDGridPoint->nnPositiveClass0[gridPointDataIndex]>=0.0 && RSDGridPoint->nnPositiveClass0[gridPointDataIndex]<=1.0);
 			
-			RSDGridPoint->nnPositiveClass0[gridPointDataIndex] = (RSDGridPoint->nnPositiveClass0[gridPointDataIndex] < THRESHOLD) ?(int)0:(int)1;	//Threshold calculation 
-			assert(RSDGridPoint->nnPositiveClass0[gridPointDataIndex]==0 || RSDGridPoint->nnPositiveClass0[gridPointDataIndex]==1);					//Threshold output assertion
+			//RSDGridPoint->nnPositiveClass0[gridPointDataIndex] = (RSDGridPoint->nnPositiveClass0[gridPointDataIndex] < THRESHOLD) ?(int)0:(int)1;	//Threshold calculation 
+			//assert(RSDGridPoint->nnPositiveClass0[gridPointDataIndex]==0 || RSDGridPoint->nnPositiveClass0[gridPointDataIndex]==1);					//Threshold output assertion
     		
 			RSDGridPoint_calcCompositeScore (RSDGridPoint, gridPointDataIndex); // stores in nnPositiveClass1
 	}
