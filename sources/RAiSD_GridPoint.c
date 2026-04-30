@@ -401,9 +401,9 @@ void RSDGridPoint_write2FileFull (RSDGridPoint_t * RSDGridPoint, RSDMuStat_t * R
 		double nnPositiveClass0Reduced = RSDGridPoint->nnPositiveClass0Reduced;
 		double nnPositiveClass1Reduced = RSDGridPoint->nnPositiveClass1Reduced;
 		
-		/*fprintf(RSDMuStat->reportFP, "%.0f\t%.0f\t%.0f\t%.3e\t%.3e\t%.3e\t%.3e\t%.3e\t%.3e\n", windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu, 
+		fprintf(RSDMuStat->reportFP, "%.0f\t%.0f\t%.0f\t%.3e\t%.3e\t%.3e\t%.3e\t%.3e\t%.3e\n", windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu, 
 												       nnPositiveClass0Reduced, nnPositiveClass1Reduced);//Original Print*/
-		fprintf(RSDMuStat->reportFP, "%.0f\t%.0f\n", windowCenter, nnPositiveClass0Reduced);	//Print only window center and classification as integer											   
+		//fprintf(RSDMuStat->reportFP, "%.0f\t%.0f\n", windowCenter, nnPositiveClass0Reduced);	//Print only window center and classification as integer											   
 	}
 	else
 		RSDMuStat_output2FileFull (RSDMuStat, windowCenter, windowStart, windowEnd, muVar, muSfs, muLd, mu);
