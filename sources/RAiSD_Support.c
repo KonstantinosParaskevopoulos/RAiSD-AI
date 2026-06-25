@@ -902,14 +902,16 @@ void VCFFileCheck (void * vRSDDataset, char * fileName, FILE * fpOut) // TODO: I
 			while(!doneParsing)
 			{
 				rcnt = fscanf(fp, "%s", tstring);
-
+				//printf("CHROM: %s\t", tstring);
+				//fflush(stdout);
 				if(rcnt!=EOF)
 				{
 					if(!strcmp(chromList[i], tstring))
 					{
 						rcnt = fscanf(fp, "%s", tstring); // POS
 						assert(rcnt!=-1);
-
+						//printf("POS: %s\n", tstring);
+						//fflush(stdout);
 						if(strcmp(tstring, "."))
 						{
 							double curPOS = (double)atof(tstring);
